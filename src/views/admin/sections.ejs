@@ -1,0 +1,28 @@
+<%- include('../partials/head') %>
+<div class="card">
+  <h2>Ajouter une section</h2>
+  <form method="POST" action="/admin/sections/add" class="form-inline-fields">
+    <div class="form-row"><label>Nom de la section</label><input type="text" name="nom" required /></div>
+    <button class="btn" type="submit">Ajouter</button>
+  </form>
+</div>
+<div class="card">
+  <h2>Sections (<%= sections.length %>)</h2>
+  <table>
+    <thead><tr><th>Nom</th><th>Nb. membres CA</th><th></th></tr></thead>
+    <tbody>
+      <% sections.forEach(function(s){ %>
+      <tr>
+        <td><%= s.nom %></td>
+        <td><%= counts[s.id] || 0 %></td>
+        <td>
+          <form class="inline" method="POST" action="/admin/sections/<%= s.id %>/delete" onsubmit="return confirm('Supprimer cette section ainsi que ses membres et comptes associes ?');">
+            <button class="btn danger" type="submit">Supprimer</button>
+          </form>
+        </td>
+      </tr>
+      <% }) %>
+    </tbody>
+  </table>
+</div>
+<%- include('../partials/foot') %>

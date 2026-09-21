@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title><%= typeof title !== 'undefined' ? title : 'Presence CA' %></title>
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+<header class="topbar">
+  <h1>Commission Administrative &mdash; Presences</h1>
+  <% if (currentUser) { %>
+    <div>
+      <span><%= currentUser.nomAffichage %> (<%= currentUser.role === 'admin' ? 'Super Admin' : 'Referent section' %>)</span>
+      &nbsp;
+      <form class="inline" method="POST" action="/logout">
+        <button class="btn secondary" type="submit">Deconnexion</button>
+      </form>
+    </div>
+  <% } %>
+</header>
+<% if (currentUser) { %>
+<nav class="tabs">
+  <% if (currentUser.role === 'admin') { %>
+    <a href="/admin">Tableau de bord</a>
+    <a href="/admin/rapport">Rapport detaille</a>
+    <a href="/admin/sections">Sections</a>
+    <a href="/admin/membres">Membres CA</a>
+    <a href="/admin/activites">Activites</a>
+    <a href="/admin/utilisateurs">Utilisateurs</a>
+    <a href="/admin/export">Export fichier Excel</a>
+    <a href="/presence">Saisie presence</a>
+  <% } else { %>
+    <a href="/presence">Saisie presence</a>
+    <a href="/presence/historique">Historique</a>
+  <% } %>
+</nav>
+<% } %>
+<main>
+<% if (success && success.length) { %><div class="flash-success"><%= success.join(' ') %></div><% } %>
+<% if (error && error.length) { %><div class="flash-error"><%= error.join(' ') %></div><% } %>

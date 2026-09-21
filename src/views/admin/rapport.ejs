@@ -1,0 +1,105 @@
+<%- include('../partials/head') %>
+<div class="card">
+  <h2>Filtres du rapport</h2>
+  <form method="GET" action="/admin/rapport" class="form-inline-fields">
+    <div class="form-row">
+      <label>Section</label>
+      <select name="sectionId">
+        <option value="">Toutes</option>
+        <% sections.forEach(function(s){ %>
+          <option value="<%= s.id %>" <%= String(filters.sectionId) === String(s.id) ? 'selected' : '' %>><%= s.nom %></option>
+        <% }) %>
+      </select>
+    </div>
+    <div class="form-row">
+      <label>Activite</label>
+      <select name="activiteId">
+        <option value="">Toutes</option>
+        <% activites.forEach(function(a){ %>
+          <option value="<%= a.id %>" <%= String(filters.activiteId) === String(a.id) ? 'selected' : '' %>><%= a.nom %></option>
+        <% }) %>
+      </select>
+    </div>
+    <div class="form-row">
+      <label>Membre</label>
+      <select name="membreId">
+        <option value="">Tous</option>
+        <% membres.forEach(function(m){ %>
+          <option value="<%= m.id %>" <%= String(filters.membreId) === String(m.id) ? 'selected' : '' %>><%= m.nom %></option>
+        <% }) %>
+      </select>
+    </div>
+    <div class="form-row"><label>Du</label><input type="date" name="dateFrom" value="<%= filters.dateFrom %>" /></div>
+    <div class="form-row"><label>Au</label><input type="date" name="dateTo" value="<%= filters.dateTo %>" /></div>
+    <button class="btn" type="submit">Filtrer</button>
+    <a class="btn secondary" href="/admin/rapport">Reinitialiser</a>
+    <a class="btn" href="/admin/rapport/export?sectionId=<%= filters.sectionId %>&activiteId=<%= filters.activiteId %>&membreId=<%= filters.membreId %>&dateFrom=<%= filters.dateFrom %>&dateTo=<%= filters.dateTo %>">Exporter ce rapport (Excel)</a>
+  </form>
+</div>
+
+<div class="kpi-grid">
+  <div class="kpi"><div class="value"><%= stats.total %></div><div class="label">Saisies</div></div>
+  <div class="kpi"><div class="value"><%= stats.presents %></div><div class="label">Presences</div></div>
+  <div class="kpi"><div class="value"><%= stats.tauxGlobal %>%</div><div class="label">Taux de presence</div></div>
+</div>
+
+<div class="card">
+  <h2>Par section</h2>
+  <table>
+    <thead><tr><th>Section</th><th>Saisies</th><th>Presents</th><th>Taux</th></tr></thead>
+    <tbody>
+      <% stats.sectionStats.forEach(function(s){ %>
+      <tr><td><%= s.nom %></td><td><%= s.total %></td><td><%= s.presents %></td><td><%= s.taux %>%</td></tr>
+      <% }) %>
+    </tbody>
+  </table>
+</div>
+
+<div class="card">
+  <h2>Par activite</h2>
+  <table>
+    <thead><tr><th>Activite</th><th>Saisies</th><th>Presents</th><th>Taux</th></tr></thead>
+    <tbody>
+      <% stats.activiteStats.forEach(function(a){ %>
+      <tr><td><%= a.nom %></td><td><%= a.total %></td><td><%= a.presents %></td><td><%= a.taux %>%</td></tr>
+      <% }) %>
+    </tbody>
+  </table>
+</div>
+
+<div class="card">
+  <h2>Par membre</h2>
+  <table>
+    <thead><tr><th>Membre</th><th>Section</th><th>Saisies</th><th>Presents</th><th>Taux</th></tr></thead>
+    <tbody>
+      <% stats.membreStats.forEach(function(m){ %>
+      <tr><td><%= m.nom %></td><td><%= m.section %></td><td><%= m.total %></td><td><%= m.presents %></td><td><%= m.taux %>%</td></tr>
+      <% }) %>
+    </tbody>
+  </table>
+</div>
+
+<div class="card">
+  <h2>Detail des saisies (<%= stats.presencesDetail.length %>)</h2>
+  <table>
+    <thead><tr><th>Date</th><th>Section</th><th>Activite</th><th>Membre</th><th>Present</th><th>Remarque</th><th>Saisi par</th></tr></thead>
+    <tbody>
+      <% stats.presencesDetail.slice(0,200).forEach(function(p){ %>
+      <tr>
+        <td><%= p.date %></td>
+        <td><%= p.sectionNom %></td>
+        <td><%= p.activiteNom %></td>
+        <td><%= p.membreNom %></td>
+        <td><span class="badge <%= p.present ? 'ok' : 'ko' %>"><%= p.present ? 'Present' : 'Absent' %></span></td>
+        <td><%= p.remarque %></td>
+        <td><%= p.saisiPar %></td>
+      </tr>
+      <% }) %>
+      <% if (!stats.presencesDetail.length) { %><tr><td colspan="7" class="muted">Aucune donnee.</td></tr><% } %>
+    </tbody>
+  </table>
+  <% if (stats.presencesDetail.length > 200) { %>
+  <p class="muted">Affichage limite aux 200 dernieres lignes. Utilisez l'export Excel pour la totalite.</p>
+  <% } %>
+</div>
+<%- include('../partials/foot') %>

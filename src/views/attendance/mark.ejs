@@ -1,0 +1,56 @@
+<%- include('../partials/head') %>
+<div class="card">
+  <h2>Saisie de la presence</h2>
+  <form method="GET" action="/presence" class="form-inline-fields">
+    <% if (isAdmin) { %>
+    <div class="form-row">
+      <label>Section</label>
+      <select name="sectionId" onchange="this.form.submit()">
+        <% sections.forEach(function(s){ %>
+          <option value="<%= s.id %>" <%= Number(s.id) === Number(sectionId) ? 'selected' : '' %>><%= s.nom %></option>
+        <% }) %>
+      </select>
+    </div>
+    <% } %>
+    <div class="form-row">
+      <label>Date</label>
+      <input type="date" name="date" value="<%= date %>" onchange="this.form.submit()" />
+    </div>
+    <div class="form-row">
+      <label>Activite</label>
+      <select name="activiteId" onchange="this.form.submit()">
+        <% activitesActives.forEach(function(a){ %>
+          <option value="<%= a.id %>" <%= Number(a.id) === Number(activiteId) ? 'selected' : '' %>><%= a.nom %> (<%= a.jour %> <%= a.heure %>)</option>
+        <% }) %>
+      </select>
+    </div>
+    <noscript><button class="btn" type="submit">Afficher</button></noscript>
+  </form>
+</div>
+
+<div class="card">
+  <% if (!membres.length) { %>
+    <p class="muted">Aucun membre CA dans cette section.</p>
+  <% } else { %>
+  <form method="POST" action="/presence">
+    <input type="hidden" name="date" value="<%= date %>" />
+    <input type="hidden" name="activiteId" value="<%= activiteId %>" />
+    <% if (isAdmin) { %><input type="hidden" name="sectionId" value="<%= sectionId %>" /><% } %>
+    <table>
+      <thead><tr><th>Membre CA</th><th>Present</th><th>Remarque</th></tr></thead>
+      <tbody>
+        <% membres.forEach(function(m){ var ex = existing[Number(m.id)]; %>
+        <tr>
+          <td><%= m.nom %></td>
+          <td><input type="checkbox" name="present_<%= m.id %>" <%= ex && ex.present ? 'checked' : '' %> /></td>
+          <td><input type="text" name="remarque_<%= m.id %>" value="<%= ex ? ex.remarque : '' %>" placeholder="Optionnel" /></td>
+        </tr>
+        <% }) %>
+      </tbody>
+    </table>
+    <br />
+    <button class="btn" type="submit">Enregistrer la presence</button>
+  </form>
+  <% } %>
+</div>
+<%- include('../partials/foot') %>

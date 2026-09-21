@@ -1,0 +1,53 @@
+<%- include('../partials/head') %>
+<div class="card">
+  <h2>Creer un utilisateur</h2>
+  <form method="POST" action="/admin/utilisateurs/add" class="form-inline-fields">
+    <div class="form-row"><label>Identifiant</label><input type="text" name="username" required /></div>
+    <div class="form-row"><label>Mot de passe</label><input type="password" name="password" required /></div>
+    <div class="form-row"><label>Nom affiche</label><input type="text" name="nomAffichage" required /></div>
+    <div class="form-row">
+      <label>Role</label>
+      <select name="role" id="role-select" onchange="document.getElementById('section-field').style.display = this.value === 'section' ? 'block' : 'none';">
+        <option value="section">Referent de section</option>
+        <option value="admin">Super administrateur</option>
+      </select>
+    </div>
+    <div class="form-row" id="section-field">
+      <label>Section</label>
+      <select name="sectionId">
+        <% sections.forEach(function(s){ %><option value="<%= s.id %>"><%= s.nom %></option><% }) %>
+      </select>
+    </div>
+    <button class="btn" type="submit">Creer</button>
+  </form>
+</div>
+<div class="card">
+  <h2>Utilisateurs (<%= utilisateurs.length %>)</h2>
+  <table>
+    <thead><tr><th>Identifiant</th><th>Nom</th><th>Role</th><th>Section</th><th>Reinitialiser mot de passe</th><th></th></tr></thead>
+    <tbody>
+      <% utilisateurs.forEach(function(u){ %>
+      <tr>
+        <td><%= u.username %></td>
+        <td><%= u.nomAffichage %></td>
+        <td><%= u.role === 'admin' ? 'Super Admin' : 'Referent section' %></td>
+        <td><%= u.sectionNom %></td>
+        <td>
+          <form class="inline" method="POST" action="/admin/utilisateurs/<%= u.id %>/reset-password" style="display:flex; gap:6px;">
+            <input type="password" name="password" placeholder="Nouveau mot de passe" required style="width:170px;" />
+            <button class="btn secondary" type="submit">Reinitialiser</button>
+          </form>
+        </td>
+        <td>
+          <% if (Number(u.id) !== Number(currentUser.id)) { %>
+          <form class="inline" method="POST" action="/admin/utilisateurs/<%= u.id %>/delete" onsubmit="return confirm('Supprimer cet utilisateur ?');">
+            <button class="btn danger" type="submit">Supprimer</button>
+          </form>
+          <% } %>
+        </td>
+      </tr>
+      <% }) %>
+    </tbody>
+  </table>
+</div>
+<%- include('../partials/foot') %>

@@ -1,0 +1,60 @@
+<%- include('../partials/head') %>
+<div class="kpi-grid">
+  <div class="kpi"><div class="value"><%= nbSections %></div><div class="label">Sections</div></div>
+  <div class="kpi"><div class="value"><%= nbMembres %></div><div class="label">Membres CA</div></div>
+  <div class="kpi"><div class="value"><%= nbActivites %></div><div class="label">Activites actives</div></div>
+  <div class="kpi"><div class="value"><%= stats.tauxGlobal %>%</div><div class="label">Taux de presence global</div></div>
+</div>
+
+<div class="card">
+  <h2>Taux de presence par section</h2>
+  <table>
+    <thead><tr><th>Section</th><th>Saisies</th><th>Presents</th><th>Taux</th></tr></thead>
+    <tbody>
+      <% stats.sectionStats.forEach(function(s){ %>
+      <tr>
+        <td><%= s.nom %></td>
+        <td><%= s.total %></td>
+        <td><%= s.presents %></td>
+        <td style="min-width:160px;">
+          <div class="taux-bar"><div style="width:<%= s.taux %>%;"><%= s.taux %>%</div></div>
+        </td>
+      </tr>
+      <% }) %>
+    </tbody>
+  </table>
+</div>
+
+<div class="card">
+  <h2>Taux de presence par activite</h2>
+  <table>
+    <thead><tr><th>Activite</th><th>Saisies</th><th>Presents</th><th>Taux</th></tr></thead>
+    <tbody>
+      <% stats.activiteStats.forEach(function(a){ %>
+      <tr>
+        <td><%= a.nom %></td>
+        <td><%= a.total %></td>
+        <td><%= a.presents %></td>
+        <td style="min-width:160px;">
+          <div class="taux-bar"><div style="width:<%= a.taux %>%;"><%= a.taux %>%</div></div>
+        </td>
+      </tr>
+      <% }) %>
+    </tbody>
+  </table>
+</div>
+
+<div class="card">
+  <h2>Membres avec le taux de presence le plus faible</h2>
+  <table>
+    <thead><tr><th>Membre</th><th>Section</th><th>Saisies</th><th>Taux</th></tr></thead>
+    <tbody>
+      <% stats.membreStats.slice(0,10).forEach(function(m){ %>
+      <tr><td><%= m.nom %></td><td><%= m.section %></td><td><%= m.total %></td><td><%= m.taux %>%</td></tr>
+      <% }) %>
+      <% if (!stats.membreStats.length) { %><tr><td colspan="4" class="muted">Aucune donnee pour le moment.</td></tr><% } %>
+    </tbody>
+  </table>
+  <p class="muted">Voir le <a href="/admin/rapport">rapport detaille</a> pour filtrer par periode, section, activite ou membre.</p>
+</div>
+<%- include('../partials/foot') %>

@@ -1,0 +1,46 @@
+<%- include('../partials/head') %>
+<div class="card">
+  <h2>Ajouter une activite hebdomadaire</h2>
+  <form method="POST" action="/admin/activites/add" class="form-inline-fields">
+    <div class="form-row"><label>Nom</label><input type="text" name="nom" required /></div>
+    <div class="form-row">
+      <label>Jour</label>
+      <select name="jour">
+        <% ['Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi','Dimanche'].forEach(function(j){ %>
+          <option><%= j %></option>
+        <% }) %>
+      </select>
+    </div>
+    <div class="form-row"><label>Heure</label><input type="time" name="heure" value="18:00" /></div>
+    <div class="form-row"><label>Active</label><input type="checkbox" name="actif" checked style="width:auto;" /></div>
+    <button class="btn" type="submit">Ajouter</button>
+  </form>
+  <p class="muted">L'association organise 3 activites par semaine : definissez-les ici (nom, jour, heure). Vous pouvez en desactiver une sans supprimer son historique.</p>
+</div>
+<div class="card">
+  <h2>Activites (<%= activites.length %>)</h2>
+  <table>
+    <thead><tr><th>Nom</th><th>Jour</th><th>Heure</th><th>Statut</th><th></th></tr></thead>
+    <tbody>
+      <% activites.forEach(function(a){ %>
+      <tr>
+        <td colspan="5">
+          <form method="POST" action="/admin/activites/<%= a.id %>/edit" style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
+            <input type="text" name="nom" value="<%= a.nom %>" style="width:160px;" />
+            <select name="jour" style="width:120px;">
+              <% ['Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi','Dimanche'].forEach(function(j){ %>
+                <option <%= a.jour === j ? 'selected' : '' %>><%= j %></option>
+              <% }) %>
+            </select>
+            <input type="time" name="heure" value="<%= a.heure %>" style="width:110px;" />
+            <label style="width:auto; font-size:13px;"><input type="checkbox" name="actif" <%= a.actif ? 'checked' : '' %> style="width:auto;" /> Active</label>
+            <button class="btn secondary" type="submit">Modifier</button>
+            <button class="btn danger" type="submit" formaction="/admin/activites/<%= a.id %>/delete" onclick="return confirm('Supprimer cette activite et son historique ?');">Supprimer</button>
+          </form>
+        </td>
+      </tr>
+      <% }) %>
+    </tbody>
+  </table>
+</div>
+<%- include('../partials/foot') %>

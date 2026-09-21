@@ -1,0 +1,44 @@
+<%- include('../partials/head') %>
+<div class="card">
+  <h2>Ajouter un membre CA</h2>
+  <form method="POST" action="/admin/membres/add" class="form-inline-fields">
+    <div class="form-row">
+      <label>Section</label>
+      <select name="sectionId" required>
+        <% sections.forEach(function(s){ %><option value="<%= s.id %>"><%= s.nom %></option><% }) %>
+      </select>
+    </div>
+    <div class="form-row"><label>Nom et prenom</label><input type="text" name="nom" required /></div>
+    <button class="btn" type="submit">Ajouter</button>
+  </form>
+</div>
+<div class="card">
+  <h2>Membres CA (<%= membres.length %>)</h2>
+  <table>
+    <thead><tr><th>Nom</th><th>Section</th><th></th></tr></thead>
+    <tbody>
+      <% membres.forEach(function(m){ %>
+      <tr>
+        <td>
+          <form class="inline" method="POST" action="/admin/membres/<%= m.id %>/edit" style="display:flex; gap:6px;">
+            <input type="text" name="nom" value="<%= m.nom %>" style="width:200px;" />
+            <select name="sectionId">
+              <% sections.forEach(function(s){ %>
+                <option value="<%= s.id %>" <%= Number(s.id) === Number(m.sectionId) ? 'selected' : '' %>><%= s.nom %></option>
+              <% }) %>
+            </select>
+            <button class="btn secondary" type="submit">Modifier</button>
+          </form>
+        </td>
+        <td><%= m.sectionNom %></td>
+        <td>
+          <form class="inline" method="POST" action="/admin/membres/<%= m.id %>/delete" onsubmit="return confirm('Supprimer ce membre et son historique de presence ?');">
+            <button class="btn danger" type="submit">Supprimer</button>
+          </form>
+        </td>
+      </tr>
+      <% }) %>
+    </tbody>
+  </table>
+</div>
+<%- include('../partials/foot') %>

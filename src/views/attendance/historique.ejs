@@ -1,0 +1,36 @@
+<%- include('../partials/head') %>
+<div class="card">
+  <h2>Historique des presences</h2>
+  <% if (isAdmin) { %>
+  <form method="GET" action="/presence/historique" class="form-inline-fields">
+    <div class="form-row">
+      <label>Section</label>
+      <select name="sectionId" onchange="this.form.submit()">
+        <option value="">Toutes</option>
+        <% sections.forEach(function(s){ %>
+          <option value="<%= s.id %>" <%= Number(s.id) === Number(sectionId) ? 'selected' : '' %>><%= s.nom %></option>
+        <% }) %>
+      </select>
+    </div>
+  </form>
+  <% } %>
+</div>
+<div class="card">
+  <table>
+    <thead><tr><th>Date</th><th>Activite</th><th>Membre</th><th>Present</th><th>Remarque</th><th>Saisi par</th></tr></thead>
+    <tbody>
+      <% rows.forEach(function(r){ %>
+      <tr>
+        <td><%= r.date %></td>
+        <td><%= r.activiteNom %></td>
+        <td><%= r.membreNom %></td>
+        <td><span class="badge <%= r.present ? 'ok' : 'ko' %>"><%= r.present ? 'Present' : 'Absent' %></span></td>
+        <td><%= r.remarque %></td>
+        <td><%= r.saisiPar %></td>
+      </tr>
+      <% }) %>
+      <% if (!rows.length) { %><tr><td colspan="6" class="muted">Aucune saisie.</td></tr><% } %>
+    </tbody>
+  </table>
+</div>
+<%- include('../partials/foot') %>

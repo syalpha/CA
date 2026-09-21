@@ -1,0 +1,4 @@
+node_modules/
+data/*.xlsx
+npm-debug.log*
+.DS_Store
