@@ -8,7 +8,7 @@
 </div>
 <div class="card">
   <h2>Sections (<%= sections.length %>)</h2>
-  <table>
+  <div class="table-responsive"><table>
     <thead><tr><th>Nom</th><th>Nb. membres CA</th><th></th></tr></thead>
     <tbody>
       <% sections.forEach(function(s){ %>
@@ -23,6 +23,6 @@
       </tr>
       <% }) %>
     </tbody>
-  </table>
+  </table></div>
 </div>
 <%- include('../partials/foot') %>

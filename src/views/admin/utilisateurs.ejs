@@ -23,7 +23,7 @@
 </div>
 <div class="card">
   <h2>Utilisateurs (<%= utilisateurs.length %>)</h2>
-  <table>
+  <div class="table-responsive"><table>
     <thead><tr><th>Identifiant</th><th>Nom</th><th>Role</th><th>Section</th><th>Reinitialiser mot de passe</th><th></th></tr></thead>
     <tbody>
       <% utilisateurs.forEach(function(u){ %>
@@ -48,6 +48,6 @@
       </tr>
       <% }) %>
     </tbody>
-  </table>
+  </table></div>
 </div>
 <%- include('../partials/foot') %>

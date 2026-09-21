@@ -36,7 +36,7 @@
     <input type="hidden" name="date" value="<%= date %>" />
     <input type="hidden" name="activiteId" value="<%= activiteId %>" />
     <% if (isAdmin) { %><input type="hidden" name="sectionId" value="<%= sectionId %>" /><% } %>
-    <table>
+    <div class="table-responsive"><table>
       <thead><tr><th>Membre CA</th><th>Present</th><th>Remarque</th></tr></thead>
       <tbody>
         <% membres.forEach(function(m){ var ex = existing[Number(m.id)]; %>
@@ -47,7 +47,7 @@
         </tr>
         <% }) %>
       </tbody>
-    </table>
+    </table></div>
     <br />
     <button class="btn" type="submit">Enregistrer la presence</button>
   </form>

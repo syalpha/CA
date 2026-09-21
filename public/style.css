@@ -50,6 +50,7 @@ main { padding: 24px; max-width: 1100px; margin: 0 auto; }
   margin-bottom: 20px;
 }
 .card h2 { margin-top: 0; font-size: 17px; }
+.table-responsive { width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; }
 table { width: 100%; border-collapse: collapse; font-size: 14px; }
 th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--border); }
 th { background: #eef2f7; }
@@ -93,3 +94,32 @@ input[type=text], input[type=password], input[type=date], input[type=time], sele
 .taux-bar { background: #eef2f7; border-radius: 5px; overflow: hidden; height: 18px; width: 100%; }
 .taux-bar > div { background: var(--primary); height: 100%; color: #fff; font-size: 11px; text-align: right; padding-right: 4px; line-height: 18px; }
 .muted { color: var(--muted); font-size: 13px; }
+
+/* ---- Mobile ---- */
+@media (max-width: 640px) {
+  header.topbar { padding: 12px 16px; gap: 8px; }
+  header.topbar > div { display: flex; justify-content: space-between; align-items: center; width: 100%; gap: 10px; }
+  header.topbar > div span { font-size: 13px; }
+  nav.tabs {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    padding: 0 10px;
+  }
+  nav.tabs a { white-space: nowrap; padding: 12px 12px; font-size: 13px; }
+  main { padding: 14px; }
+  .card { padding: 14px; border-radius: 6px; }
+  th, td { padding: 8px; font-size: 13px; }
+  .form-inline-fields { flex-direction: column; align-items: stretch; }
+  .form-inline-fields .form-row { min-width: 0; width: 100%; }
+  .form-inline-fields .btn,
+  .form-inline-fields a.btn { width: 100%; text-align: center; margin-top: 4px; }
+  .btn { padding: 11px 16px; font-size: 15px; }
+  input[type=text], input[type=password], input[type=date], input[type=time], select, textarea {
+    padding: 10px; font-size: 16px; /* 16px prevents iOS auto-zoom on focus */
+  }
+  .kpi-grid { gap: 10px; }
+  .kpi { min-width: calc(50% - 5px); padding: 12px; }
+  .kpi .value { font-size: 22px; }
+  .login-wrap { margin: 40px auto; padding: 0 16px; }
+}

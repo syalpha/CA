@@ -14,7 +14,7 @@
 </div>
 <div class="card">
   <h2>Membres CA (<%= membres.length %>)</h2>
-  <table>
+  <div class="table-responsive"><table>
     <thead><tr><th>Nom</th><th>Section</th><th></th></tr></thead>
     <tbody>
       <% membres.forEach(function(m){ %>
@@ -39,6 +39,6 @@
       </tr>
       <% }) %>
     </tbody>
-  </table>
+  </table></div>
 </div>
 <%- include('../partials/foot') %>

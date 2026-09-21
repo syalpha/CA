@@ -8,7 +8,7 @@
 
 <div class="card">
   <h2>Taux de presence par section</h2>
-  <table>
+  <div class="table-responsive"><table>
     <thead><tr><th>Section</th><th>Saisies</th><th>Presents</th><th>Taux</th></tr></thead>
     <tbody>
       <% stats.sectionStats.forEach(function(s){ %>
@@ -22,12 +22,12 @@
       </tr>
       <% }) %>
     </tbody>
-  </table>
+  </table></div>
 </div>
 
 <div class="card">
   <h2>Taux de presence par activite</h2>
-  <table>
+  <div class="table-responsive"><table>
     <thead><tr><th>Activite</th><th>Saisies</th><th>Presents</th><th>Taux</th></tr></thead>
     <tbody>
       <% stats.activiteStats.forEach(function(a){ %>
@@ -41,12 +41,12 @@
       </tr>
       <% }) %>
     </tbody>
-  </table>
+  </table></div>
 </div>
 
 <div class="card">
   <h2>Membres avec le taux de presence le plus faible</h2>
-  <table>
+  <div class="table-responsive"><table>
     <thead><tr><th>Membre</th><th>Section</th><th>Saisies</th><th>Taux</th></tr></thead>
     <tbody>
       <% stats.membreStats.slice(0,10).forEach(function(m){ %>
@@ -54,7 +54,7 @@
       <% }) %>
       <% if (!stats.membreStats.length) { %><tr><td colspan="4" class="muted">Aucune donnee pour le moment.</td></tr><% } %>
     </tbody>
-  </table>
+  </table></div>
   <p class="muted">Voir le <a href="/admin/rapport">rapport detaille</a> pour filtrer par periode, section, activite ou membre.</p>
 </div>
 <%- include('../partials/foot') %>
